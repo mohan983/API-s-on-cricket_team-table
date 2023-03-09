@@ -64,9 +64,9 @@ app.post("/players/", async (request, response) => {
       cricket_team(player_name,jersey_number,role)
     VALUES
       (
-        "Vishal",
-        17,
-        "Bowler"
+        '${playerName}',
+        '${jerseyNumber}',
+        '${role}'
       );`;
 
   const dbResponse = await db.run(addPlayerDetails);
@@ -84,11 +84,10 @@ app.get("/players/:playerId/", async (request, response) => {
     FROM
       cricket_team
     WHERE
-      playerId = ${playerId};`;
+      player_id = '${playerId}';`;
   const player = await db.get(getPlayerDetails);
-  response.send(
-    player.map((eachPlayer) => convertDbObjectToResponseObject(eachPlayer))
-  );
+  console.log(player);
+  response.send(convertDbObjectToResponseObject(player));
 });
 
 ///API_4
@@ -100,9 +99,9 @@ app.put("/players/:playerId/", async (request, response) => {
     UPDATE
       cricket_team
     SET
-      player_name="Maneesh",
-      jersey_number=54,
-      role="All-rounder"
+      player_name='${playerName}',
+      jersey_number='${jerseyNumber}',
+      role='${role}'
     WHERE
       player_id=${playerId};
       `;
